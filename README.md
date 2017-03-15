@@ -47,4 +47,9 @@ might be
 
 which specifies that both the working directory, where the output will
 be placed, and the image directory which will be searched for images
-are the current working directory `.`.
+are the current working directory.
+
+## Obtaining catalogues
+
+Catalogues for several surveys in suitable formats are available at
+http://www.extragalactic.info/bootstrap/
