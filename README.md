@@ -23,8 +23,10 @@ use.)
 These maps are first assembled into a cube, then PyBDSM is used
 to extract a catalogue with per-channel fluxes, the catalogue is
 matched with suitable catalogues from other surveys and finally
-scaling factors that can be applied to the data are found. The factors
-are saved to a numpy file and printed to the screen.
+scaling factors that can be applied to the data are found. The
+factors, along with their $1\sigma$ uncertainties,
+are saved to a numpy file and printed to the screen. Outliers are
+rejected and the process is repeated.
 
 ## Running the code
 
@@ -42,3 +44,7 @@ might be
 
 ``bootstrap.py bootstrap.cfg --data-imdir=. --data-images="*conv*fits"
 --data-wdir=.``
+
+which specifies that both the working directory, where the output will
+be placed, and the image directory which will be searched for images
+are the current working directory `.`.
