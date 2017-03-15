@@ -1,4 +1,4 @@
-# Options for bootstray
+# Options for bootstrap
 
 import ConfigParser
 import os
@@ -56,13 +56,12 @@ def options(optlist):
             optstring=o[2:]
             result=re.match('(\w*)-(\w*)\s*=\s*(.*)',optstring)
             if result is None:
-                print 'Cannot parse option',optstring
+                print 'Cannot parse option',optstring,'-- ignoring it'
             else:
                 cmdlineset.append(result.groups())
         else:
             filenames.append(o)
 
-    print filenames, cmdlineset
     config.read(filenames)
     for c in cmdlineset:
         try:
@@ -70,6 +69,8 @@ def options(optlist):
         except ConfigParser.DuplicateSectionError:
             pass
         config.set(c[0],c[1],c[2])
+
+    # Now look for the expected option set
     cased={int: config.getint, float: config.getfloat, bool: config.getboolean, str: config.get, list: lambda x,y: eval(config.get(x,y))}
     for o in option_list:
         (section, name, otype, default)=o[:4]
