@@ -51,6 +51,9 @@ def options(optlist):
     config=ConfigParser.SafeConfigParser()
     filenames=[]
     cmdlineset=[]
+    if isinstance(optlist,str):
+        optlist=[optlist]
+
     for o in optlist:
         if o[:2]=='--':
             optstring=o[2:]
