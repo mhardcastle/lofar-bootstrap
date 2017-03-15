@@ -37,5 +37,5 @@ def make_cube(directory,filenames,outfile):
 if __name__=='__main__':
     directory=sys.argv[1]
     outfile=sys.argv[2]
-    make_cube(directory,'*-wsclean-mfs-robust-0.7-0007-image-pb.fits',outfile)
+    make_cube(directory,'*-wsclean-mfs-robust-0.7-000*-image-pb.fits',outfile)
     
