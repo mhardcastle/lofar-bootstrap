@@ -6,11 +6,12 @@ import sys
 
 # Utility functions for making the cube
 
-def get_hdus_freqs(directory,filenames):
+def get_freqs_hdus(directory,filenames):
     hdus=[]
     freqs=[]
     g=glob.glob(directory+'/'+filenames)
     for f in g:
+        if f==(directory+'/cube.fits'): continue
         hdus.append(fits.open(f))
         freqs.append(hdus[-1][0].header['CRVAL3'])
         print f,freqs[-1]

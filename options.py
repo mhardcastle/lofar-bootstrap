@@ -86,8 +86,6 @@ def options(optlist):
             odict[section+'_'+name]=result
         else:
             odict[name]=result
-    if odict['logging']=='None':
-        odict['logging']=None
     return odict
 
 def typename(s):

@@ -6,13 +6,14 @@
 
 import os,sys
 import os.path
-from auxcodes import warn,die
+from auxcodes import report,warn,die
 import numpy as np
 import shutil
 from make_cube import get_freqs_hdus, make_cube
 from make_fitting_product import make_catalogue
 import fitting_factors
 import find_outliers
+from astropy.io import fits
 from lofar import bdsm
 
 # options needed:
@@ -26,7 +27,7 @@ def run_bootstrap(o):
     
     if o['imdir'] is None:
         die('Image directory must be specified')
-
+    
     # check the data supplied
     if o['frequencies'] is None or o['catalogues'] is None:
         die('Frequencies and catalogues options must be specified')
@@ -42,19 +43,21 @@ def run_bootstrap(o):
         len(o['names'])!=cl or len(o['groups'])!=cl):
         die('Names, groups, radii and frequencies entries must be the same length as the catalogue list')
 
-    freqs,hdus=get_hdus_freqs(o['imdir'],o['images'])
+    report('Reading the images')
+    freqs,hdus=get_freqs_hdus(o['imdir'],o['images'])
 
     # Clean in cube mode
     if os.path.isfile('cube.fits'):
         warn('Cube exists, skipping cube generation')
     else:
+        report('Making the cube')
         make_cube(freqs,hdus,'cube.fits')
 
     if os.path.isfile('cube.fits.pybdsm.srl'):
         warn('Source list exists, skipping source extraction')
     else:
-        warn('Running PyBDSM, please wait...')
-        img=bdsm.process_image('image_bootstrap.cube.int.restored.fits',thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=True, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1)
+        report('Running PyBDSM, please wait...')
+        img=bdsm.process_image('cube.fits',thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=True, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1)
         # Write out in ASCII to work round bug in pybdsm
         img.write_catalog(catalog_type='srl',format='ascii',incl_chan='true')
         img.export_image(img_type='rms',img_format='fits')
@@ -100,9 +103,10 @@ def run_bootstrap(o):
             fitting_factors.run_all(2)
 
 if __name__=='__main__':
-    from options import options
-    if len(argv)<2:
-        options.print_options()
+    from options import options,print_options
+    if len(sys.argv)<2:
+        print 'bootstrap.py needs command-line options and/or a config file'
+        print_options()
     else:
         o=options(sys.argv[1:])
         run_bootstrap(o)
