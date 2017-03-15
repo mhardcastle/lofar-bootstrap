@@ -4,7 +4,9 @@ import numpy as np
 import glob
 import sys
 
-def make_cube(directory,filenames,outfile):
+# Utility functions for making the cube
+
+def get_hdus_freqs(directory,filenames):
     hdus=[]
     freqs=[]
     g=glob.glob(directory+'/'+filenames)
@@ -14,8 +16,9 @@ def make_cube(directory,filenames,outfile):
         print f,freqs[-1]
 
     freqs,hdus = (list(x) for x in zip(*sorted(zip(freqs, hdus), key=lambda pair: pair[0])))
-
-    print freqs
+    return freqs,hdus
+    
+def make_cube(freqs,hdus,outfile):
 
     stokes,chan,y,x=hdus[0][0].data.shape
     print stokes,chan,y,x
@@ -37,5 +40,5 @@ def make_cube(directory,filenames,outfile):
 if __name__=='__main__':
     directory=sys.argv[1]
     outfile=sys.argv[2]
-    make_cube(directory,'*-wsclean-mfs-robust-0.7-000*-image-pb.fits',outfile)
+    make_cube(directory,'*-wsclean-mfs-*-image-pb.fits',outfile)
     
