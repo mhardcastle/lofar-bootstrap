@@ -24,7 +24,7 @@ These maps are first assembled into a cube, then PyBDSM is used
 to extract a catalogue with per-channel fluxes, the catalogue is
 matched with suitable catalogues from other surveys and finally
 scaling factors that can be applied to the data are found. The
-factors, along with their $1\sigma$ uncertainties,
+factors, along with their 1-sigma uncertainties,
 are saved to a numpy file and printed to the screen. Outliers are
 rejected and the process is repeated.
 
