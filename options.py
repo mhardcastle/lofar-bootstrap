@@ -40,7 +40,8 @@ option_list = ( ( 'data', 'imdir', str, None,
                 ( 'bootstrap', 'groups', list, None, 'Group numbers for catalogues. At least one match must be found in each group. Optional -- if not present each catalogue is in a different group.' ), 
                 ( 'bootstrap', 'frequencies', list, None, 'Frequencies for catalogues (Hz)' ), 
                 ( 'bootstrap', 'names', list, None, 'Short names for catalogues' ), 
-                ( 'bootstrap', 'radii', list, None, 'Crossmatch radii for catalogues (arcsec)' ) )
+                ( 'bootstrap', 'radii', list, None, 'Crossmatch radii for catalogues (arcsec)' ),
+                ( 'bootstrap', 'detection_image', str, None, 'Detection image to be used by PyBDSM' ) )
 
 def options(optlist):
 
