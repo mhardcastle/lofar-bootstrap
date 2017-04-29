@@ -63,7 +63,7 @@ def run_bootstrap(o):
         kwargs={}
         if o['detection_image'] is not None:
             kwargs['detection_image']=o['detection_image']
-        img=bdsm.process_image('cube.fits',thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=True, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1,**kwargs)
+        img=bdsm.process_image('cube.fits',thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=False, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1,**kwargs)
         # Write out in ASCII to work round bug in pybdsm
         img.write_catalog(outfile='cube.pybdsm.srl',catalog_type='srl',format='ascii',incl_chan='true')
         img.export_image(img_type='rms',img_format='fits')   
