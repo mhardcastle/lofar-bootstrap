@@ -41,8 +41,7 @@ option_list = ( ( 'data', 'imdir', str, None,
                 ( 'bootstrap', 'frequencies', list, None, 'Frequencies for catalogues (Hz)' ), 
                 ( 'bootstrap', 'names', list, None, 'Short names for catalogues' ), 
                 ( 'bootstrap', 'radii', list, None, 'Crossmatch radii for catalogues (arcsec)' ),
-                ( 'bootstrap', 'detection_image', str, None, 'Detection image to be used by PyBDSM' 
-                  'Option for using a detection image' ) )
+                ( 'bootstrap', 'detection_image', str, None, 'Detection image to be used by PyBDSM. If None, one will be made from the input cube.' ) )
 
 def options(optlist):
 

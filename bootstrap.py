@@ -14,7 +14,10 @@ from make_fitting_product import make_catalogue
 import fitting_factors
 import find_outliers
 from astropy.io import fits
-from lofar import bdsm
+try:
+    import bdsf as bdsm
+except ImportError:
+    from lofar import bdsm
 
 # options needed:
 # working directory -- where cube and other outputs are stored
@@ -53,21 +56,17 @@ def run_bootstrap(o):
         report('Making the cube')
         make_cube(freqs,hdus,'cube.fits')
 
-    if os.path.isfile('cube.fits.pybdsm.srl'):
+    if os.path.isfile('cube.pybdsm.srl'):
         warn('Source list exists, skipping source extraction')
-    elif o['detection_image'] is not None:
-        report('Running PyBDSM using a specified detection image, please wait...')
-        img=bdsm.process_image('cube.fits',detection_image=o['detection_image'],thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=True, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1)
-        # Write out in ASCII to work round bug in pybdsm
-        img.write_catalog(catalog_type='srl',format='ascii',incl_chan='true')
-        img.export_image(img_type='rms',img_format='fits')   
     else:
         report('Running PyBDSM, please wait...')
-        img=bdsm.process_image('cube.fits',thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=True, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1)
+        kwargs={}
+        if o['detection_image'] is not None:
+            kwargs['detection_image']=o['detection_image']
+        img=bdsm.process_image('cube.fits',thresh_pix=5,rms_map=True,atrous_do=True,atrous_jmax=2,group_by_isl=True,rms_box=(80,20), adaptive_rms_box=True, adaptive_thresh=80, rms_box_bright=(35,7),mean_map='zero',spectralindex_do=True,specind_maxchan=1,debug=True,kappa_clip=3,flagchan_rms=False,flagchan_snr=False,incl_chan=True,spline_rank=1,**kwargs)
         # Write out in ASCII to work round bug in pybdsm
-        img.write_catalog(catalog_type='srl',format='ascii',incl_chan='true')
-        img.export_image(img_type='rms',img_format='fits')
-
+        img.write_catalog(outfile='cube.pybdsm.srl',catalog_type='srl',format='ascii',incl_chan='true')
+        img.export_image(img_type='rms',img_format='fits')   
 
     # generate the fitting product
     if os.path.isfile('crossmatch-1.fits'):
