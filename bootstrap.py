@@ -108,10 +108,11 @@ def run_bootstrap(o):
             fitting_factors.run_all(2)
 
 if __name__=='__main__':
+    from parset import option_list
     from options import options,print_options
     if len(sys.argv)<2:
         print 'bootstrap.py needs command-line options and/or a config file'
-        print_options()
+        print_options(option_list)
     else:
-        o=options(sys.argv[1:])
+        o=options(sys.argv[1:],option_list)
         run_bootstrap(o)

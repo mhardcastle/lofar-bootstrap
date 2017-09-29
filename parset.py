@@ -1,0 +1,12 @@
+option_list = ( ( 'data', 'imdir', str, None,
+                  'Directory where images are located' ),
+                ( 'data', 'images', str, '*.fits',
+                  'Glob string to use to find the images' ),
+                ( 'data', 'wdir', str, '.', 'Working directory' ),
+                ( 'bootstrap', 'catalogues', list, None, 'File names of catalogues for doing bootstrap' ),
+                ( 'bootstrap', 'groups', list, None, 'Group numbers for catalogues. At least one match must be found in each group. Optional -- if not present each catalogue is in a different group.' ), 
+                ( 'bootstrap', 'frequencies', list, None, 'Frequencies for catalogues (Hz)' ), 
+                ( 'bootstrap', 'names', list, None, 'Short names for catalogues' ), 
+                ( 'bootstrap', 'radii', list, None, 'Crossmatch radii for catalogues (arcsec)' ),
+                ( 'bootstrap', 'detection_image', str, None, 'Detection image to be used by PyBDSM. If None, one will be made from the input cube.' ) ,
+                ( 'control', 'logging', str, 'logs', 'Name of directory to save logs to, or \'None\' for no logging' ) )

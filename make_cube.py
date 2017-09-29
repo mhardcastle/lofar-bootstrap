@@ -13,7 +13,11 @@ def get_freqs_hdus(directory,filenames):
     for f in g:
         if f==(directory+'/cube.fits'): continue
         hdus.append(fits.open(f))
-        freqs.append(hdus[-1][0].header['CRVAL3'])
+        header=hdus[-1][0].header
+        if header['CUNIT3']=='Hz':
+            freqs.append(header['CRVAL3'])
+        else:
+            freqs.append(header['RESTFRQ'])
         print f,freqs[-1]
 
     freqs,hdus = (list(x) for x in zip(*sorted(zip(freqs, hdus), key=lambda pair: pair[0])))
@@ -33,6 +37,7 @@ def make_cube(freqs,hdus,outfile):
     ohdu[0].data=newdata
     ohdu[0].header['NAXIS3']=len(hdus)
     ohdu[0].header['CTYPE3']='FREQ'
+    ohdu[0].header['CUNIT3']='Hz'
     ohdu[0].header['CRPIX3']=0
     ohdu[0].header['CRVAL3']=freqs[0]
     ohdu[0].header['CDELT3']=freqs[1]-freqs[0]
