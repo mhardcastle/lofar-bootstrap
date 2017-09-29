@@ -2,15 +2,15 @@
 Standalone code to bootstrap LOFAR flux densities
 
 ## Prerequisites and installation
-The code requires astropy, emcee and pybdsm (LOFAR software) to be on
-the path.
+The code requires astropy, emcee and pybdsf (you are recommended to
+build your own from the pybdsf github) to be on the path.
 
 Because it makes use of routines from ddf-pipeline, ddf-pipeline must
 also be installed. Clone it from
 https://github.com/mhardcastle/ddf-pipeline and then ensure that the
-``ddf-pipeline/utils`` directory is on the PYTHONPATH.
+``ddf-pipeline/utils`` directory is on your PYTHONPATH.
 
-The convolution routines use Miriad and so that must also be installed
+The convolution routines use Miriad(!) and so that must also be installed
 if the maps will be made with non-matched resolutions. 
 
 ## Operation
