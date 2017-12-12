@@ -38,7 +38,7 @@ def make_cube(freqs,hdus,outfile):
     ohdu[0].header['NAXIS3']=len(hdus)
     ohdu[0].header['CTYPE3']='FREQ'
     ohdu[0].header['CUNIT3']='Hz'
-    ohdu[0].header['CRPIX3']=0
+    ohdu[0].header['CRPIX3']=1
     ohdu[0].header['CRVAL3']=freqs[0]
     ohdu[0].header['CDELT3']=freqs[1]-freqs[0]
     if 'BPA' not in ohdu[0].header.keys():
